@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,12 @@ namespace Balls
         public MainWindow()
         {
             InitializeComponent();
-            BallRender ball = new BallRender(mainCanvas);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
+            BallRender ball = new BallRender(mainCanvas, random.Next(0, Convert.ToInt32(mainCanvas.ActualWidth)), -100);
             ball.DrawBall();
         }
     }

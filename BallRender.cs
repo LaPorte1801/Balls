@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
@@ -12,6 +13,7 @@ namespace Balls
     {
         private BallPresenter _presenter;
         private Canvas _canvas;
+        private Point _position;
 
         public BallRender(Canvas canvas)
         {
@@ -19,17 +21,20 @@ namespace Balls
             _canvas = canvas;
         }
 
+        public BallRender(Canvas canvas, int posX, int posY)
+        {
+            _position = new Point(posX, posY);
+            _presenter = new BallPresenter(canvas, posX, posY);
+            _canvas = canvas;
+        }
+
         public void DrawBall()
         {
-            _canvas.Children.Add(_presenter.ellipse);
-            Canvas.SetTop(_presenter.ellipse, _presenter.position.X);
-            Canvas.SetLeft(_presenter.ellipse, _presenter.position.Y);
+            _canvas.Children.Add(_presenter._ellipse); 
+            Canvas.SetLeft(_presenter._ellipse, _position.X);
+            Canvas.SetTop(_presenter._ellipse, _position.Y);
         }
 
-        public void SetPosition(int x, int y)
-        {
-
-        }
 
     }
 }
