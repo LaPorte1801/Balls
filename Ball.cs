@@ -11,7 +11,8 @@ namespace Balls
     internal class Ball
     {
         public Point position { get; private set; }
-        public event Action<Ball> PositionChanged;
+        public event Action PositionChanged;
+
         public Ball()
         {
             position = new Point(0, 0);
@@ -26,7 +27,8 @@ namespace Balls
 
         public async void Move()
         {
-            while (true)
+            int k = 0;
+            while (k <= 5000)
             {
                 await Task.Run(() => 
                 {
@@ -34,7 +36,8 @@ namespace Balls
                     Thread.Sleep(10);
                 });
 
-                PositionChanged(this);
+                PositionChanged();
+                k++;
             }
         }
     }

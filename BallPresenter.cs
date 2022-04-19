@@ -15,15 +15,7 @@ namespace Balls
         private readonly Ball _ball;
         public Point position { get; private set; }
         private Canvas _canvas;
-        public Ellipse _ellipse;
-
-        public BallPresenter()
-        {
-            _ball = new Ball();
-            position = _ball.position;
-            _ellipse = new Ellipse() { Height = 50, Width = 50, Fill = Brushes.Black, Stroke = Brushes.Gray };
-            _ball.PositionChanged += _ball_PositionChangedHandler;
-        }
+        private Ellipse _ellipse;
 
         public BallPresenter(Canvas canvas, int posX, int posY)
         {
@@ -34,15 +26,28 @@ namespace Balls
             _ball.PositionChanged += _ball_PositionChangedHandler;
         }
 
-        private void _ball_PositionChangedHandler(Ball ball)
+        private void _ball_PositionChangedHandler()
         {
-            position = ball.position;
-            Canvas.SetLeft(_ellipse, ball.position.X);
-            Canvas.SetTop(_ellipse, ball.position.Y);
-            if (ball.position.Y > _canvas.ActualHeight)
+            position = _ball.position;
+            Canvas.SetLeft(_ellipse, _ball.position.X);
+            Canvas.SetTop(_ellipse, _ball.position.Y);
+            if (_ball.position.Y > _canvas.ActualHeight)
             {
                 _canvas.Children.Remove(_ellipse);
             }
         }
+
+        public void DrawBall()
+        {
+            _canvas.Children.Add(_ellipse);
+            Canvas.SetLeft(_ellipse, _ball.position.X);
+            Canvas.SetTop(_ellipse, _ball.position.Y);
+        }
+
+        public void HitBall()
+        {
+            _canvas.Children.Remove(_ellipse);
+        }
+            
     }
 }

@@ -21,16 +21,32 @@ namespace Balls
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<BallPresenter> ballPresenters;
+
         public MainWindow()
         {
             InitializeComponent();
+            ballPresenters = new List<BallPresenter>();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Random random = new Random();
-            BallRender ball = new BallRender(mainCanvas, random.Next(0, Convert.ToInt32(mainCanvas.ActualWidth)), -100);
-            ball.DrawBall();
+            Random random = new();
+            BallPresenter ballPresenter = new(mainCanvas, random.Next(0, Convert.ToInt32(mainCanvas.ActualWidth)), -100);
+            ballPresenters.Add(ballPresenter);
+            ballPresenter.DrawBall();
+        }
+
+        private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < ballPresenters.Count; i++)
+            {
+                if (e.GetPosition(mainCanvas).X >= ballPresenters[i].position.X && e.GetPosition(mainCanvas).X <= ballPresenters[i].position.X + 50 &&
+                    e.GetPosition(mainCanvas).Y >= ballPresenters[i].position.Y && e.GetPosition(mainCanvas).Y <= ballPresenters[i].position.Y + 50)
+                {
+                    ballPresenters[i].HitBall();
+                }
+            }
         }
     }
 }
